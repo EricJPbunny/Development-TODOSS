@@ -62,17 +62,18 @@ bool j1App::Awake()
 	// created in the last TODO
 
 	
+	
+
+	p2List_item<j1Module*>* item;
+	item = modules.start;
 	pugi::xml_parse_result result = document.load_file("xml_files/config.xml");
 	if (!result)
 	{
 		LOG("Parse error: ", result.description());
 	}
-	node =document.child("config");
-	LOG("%s",node.name());
+	
+	LOG("%s", node.name());
 	bool ret = true;
-
-	p2List_item<j1Module*>* item;
-	item = modules.start;
 
 
 	while(item != NULL && ret == true)
@@ -82,7 +83,9 @@ bool j1App::Awake()
 		// that can be used to read all variables from that section. Send nullptr if the section does not exist in config.xml
 
 
-		ret = item->data->Awake();
+		node = document.child("config").child(item->data->name.GetString());
+
+		ret = item->data->Awake(node);
 		item = item->next;
 	}
 

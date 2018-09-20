@@ -68,13 +68,13 @@ public:
 	j1Textures*			tex;
 	j1Audio*			audio;
 	j1Scene*			scene;
-	pugi::xml_document document;
-	pugi::xml_node node;
+	
 	
 
 
 private:
-
+	pugi::xml_document document;
+	pugi::xml_node node;
 	p2List<j1Module*>	modules;
 	uint				frames;
 	float				dt;
