@@ -179,7 +179,25 @@ bool j1App::Load()
 
 	return ret;
 };
-//bool j1App::Save() {};
+bool j1App::Save() 
+{
+	bool ret = LoadSaveFile();
+
+	if (ret == true)
+	{
+		p2List_item<j1Module*>* item;
+		item = modules.start;
+
+		while (item != NULL && ret == true)
+		{
+			ret = item->data->Save(save_node.child(item->data->name.GetString()));
+			item = item->next;
+		}
+	}
+	save_file.save_file("savegame.xml");
+	return ret;
+
+};
 
 
 // ---------------------------------------------

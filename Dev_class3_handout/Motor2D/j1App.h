@@ -49,7 +49,7 @@ public:
 	// will one execute by the very end of the frame
 	// Load / Save
 	bool Load() ;
-	bool Save() { return true; };
+	bool Save();
 
 private:
 
@@ -60,7 +60,6 @@ private:
 	bool LoadSaveFile();
 
 	//Write save file
-	bool WriteLoadFile();
 
 	// Call modules before each loop iteration
 	void PrepareUpdate();
