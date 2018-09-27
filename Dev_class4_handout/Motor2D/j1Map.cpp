@@ -84,7 +84,54 @@ bool j1Map::Load(const char* file_name)
 
 	return ret;
 }
-bool j1Map::LoadAndFill() 
+bool j1Map::LoadMap(const pugi::xml_node& node) 
 {
+	Map newMap;
+	if (node.attribute("orientation").as_string() == "orthogonal") {
+		newMap.perspective = ORTHOGONAL;
+	}
+	else if (node.attribute("orientation").as_string() == "isometric") {
+		newMap.perspective = ISOMETRIC;
+	}
+	else {
+		newMap.perspective = NO_ORIENTATION;
+	}
+	if (node.attribute("orientation").as_string() == "right-up") {
+		newMap.tilepainting = RIGHT_UP;
+	}
+	else if (node.attribute("orientation").as_string() == "right-down") {
+		newMap.tilepainting = RIGHT_DOWN;
+	}
+	else if (node.attribute("orientation").as_string() == "left-up") {
+		newMap.tilepainting = LEFT_UP;
+	}
+	else if (node.attribute("orientation").as_string() == "left-down") {
+		newMap.tilepainting = LEFT_DOWN;
+	}
+	else {
+		newMap.tilepainting = NO_RENDERORDER;
+	}
+	newMap.tilepainting;
+	newMap.width = node.attribute("width").as_int();
+	newMap.height = node.attribute("height").as_int();
+	newMap.tile_height = node.attribute("tilewidth").as_int();
+	newMap.tile_width = node.attribute("tileheight").as_int();
+	mapList.push_back(newMap);
 	return true;
+
 };
+bool j1Map::LoadTilesets(pugi::xml_node &node) {
+	for (pugi::xml_node tileset = node.child("tileset"); tileset; tileset = tileset.next_sibling("tileset")) {
+		Tileset newTileset;
+		newTileset.tilesetImage = App->tex->Load(tileset.child("image").attribute("source").as_string());
+		newTileset.firstGid = tileset.attribute("firstgid").as_int();
+		newTileset.name = tileset.attribute("name").as_string();
+		newTileset.tileWidth = tileset.attribute("tilewidth").as_int();
+		newTileset.tileHeight = tileset.attribute("tileheight").as_int();
+		newTileset.spacing = tileset.attribute("spacing").as_int();
+		newTileset.margin = tileset.attribute("margin").as_int();
+		tilesetList.push_back(newTileset);
+
+	}
+	return true;
+}
