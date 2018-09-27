@@ -9,10 +9,39 @@
 // TODO 2: Create a struct to hold information for a TileSet
 // Ignore Terrain Types and Tile Types for now, but we want the image!
 // ----------------------------------------------------
+struct TilesetInfo 
+{
+	p2SString image = "";
+
+};
 
 
 // TODO 1: Create a struct needed to hold the information to Map node
-
+enum orientation 
+{
+	ORTHOGONAL,
+	ISOMETRIC,
+	SCALATED_ISOMETRIC,
+	HEXAGONAL,
+	NO_ORIENTATION
+};
+enum renderorder
+{
+	RIGHT_DOWN,
+	RIGHT_UP,
+	LEFT_DOWN,
+	LEFT_UP,
+	NO_RENDERORDER
+};
+struct Map
+{
+	uint width = 0;
+	uint height = 0;
+	uint tile_width = 0;
+	uint tile_height = 0;
+	renderorder tilepainting = NO_RENDERORDER;
+	orientation perspective = NO_ORIENTATION;
+};
 
 // ----------------------------------------------------
 class j1Map : public j1Module
@@ -37,11 +66,13 @@ public:
 	bool Load(const char* path);
 
 private:
-
+	bool LoadAndFill();
+	
 
 public:
 
 	// TODO 1: Add your struct for map info as public for now
+	Map map_info;
 
 private:
 
@@ -49,5 +80,6 @@ private:
 	p2SString			folder;
 	bool				map_loaded;
 };
+
 
 #endif // __j1MAP_H__

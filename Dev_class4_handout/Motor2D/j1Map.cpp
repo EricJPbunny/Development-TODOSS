@@ -84,4 +84,7 @@ bool j1Map::Load(const char* file_name)
 
 	return ret;
 }
-
+bool j1Map::LoadAndFill() 
+{
+	return true;
+};
