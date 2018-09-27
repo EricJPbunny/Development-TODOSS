@@ -21,7 +21,7 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	input = new j1Input();
 	win = new j1Window();
 	render = new j1Render();
-	tex = new j1Textures();
+	texture = new j1Textures();
 	audio = new j1Audio();
 	scene = new j1Scene();
 	map = new j1Map();
@@ -30,7 +30,7 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	// Reverse order of CleanUp
 	AddModule(input);
 	AddModule(win);
-	AddModule(tex);
+	AddModule(texture);
 	AddModule(audio);
 	AddModule(map);
 	AddModule(scene);

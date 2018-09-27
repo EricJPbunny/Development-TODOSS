@@ -33,6 +33,10 @@ void j1Map::Draw()
 
 	// TODO 6: Iterate all tilesets and draw all their 
 	// images in 0,0 (you should have only one tileset for now)
+	std::list<Tileset>::const_iterator iterator;
+	for (iterator = tilesetList.begin(); iterator != tilesetList.end(); ++iterator) {
+		App->render->Blit(iterator->tilesetImage, 0, 0);
+	}
 
 }
 
@@ -68,6 +72,8 @@ bool j1Map::Load(const char* file_name)
 	{
 		// TODO 3: Create and call a private function to load and fill
 		// all your map data
+		LoadMap(map_file.child("map"));
+		LoadTilesets(map_file.child("map"));
 	}
 
 	// TODO 4: Create and call a private function to load a tileset
@@ -78,6 +84,8 @@ bool j1Map::Load(const char* file_name)
 	{
 		// TODO 5: LOG all the data loaded
 		// iterate all tilesets and LOG everything
+		
+
 	}
 
 	map_loaded = ret;
@@ -117,13 +125,16 @@ bool j1Map::LoadMap(const pugi::xml_node& node)
 	newMap.tile_height = node.attribute("tilewidth").as_int();
 	newMap.tile_width = node.attribute("tileheight").as_int();
 	mapList.push_back(newMap);
+	if (newMap.height != 0 && newMap.width != 0 && newMap.tile_height != 0 && newMap.tile_width != 0 && newMap.perspective != NO_ORIENTATION && newMap.tilepainting != NO_RENDERORDER)
+		LOG("Map loaded successfully");
+
 	return true;
 
 };
 bool j1Map::LoadTilesets(pugi::xml_node &node) {
 	for (pugi::xml_node tileset = node.child("tileset"); tileset; tileset = tileset.next_sibling("tileset")) {
 		Tileset newTileset;
-		newTileset.tilesetImage = App->tex->Load(tileset.child("image").attribute("source").as_string());
+		newTileset.tilesetImage = App->texture->Load(tileset.child("image").attribute("source").as_string());
 		newTileset.firstGid = tileset.attribute("firstgid").as_int();
 		newTileset.name = tileset.attribute("name").as_string();
 		newTileset.tileWidth = tileset.attribute("tilewidth").as_int();
@@ -131,7 +142,8 @@ bool j1Map::LoadTilesets(pugi::xml_node &node) {
 		newTileset.spacing = tileset.attribute("spacing").as_int();
 		newTileset.margin = tileset.attribute("margin").as_int();
 		tilesetList.push_back(newTileset);
-
+		//if (newTileset.tilesetImage != nullptr &&)
+		//	LOG("Map loaded successfully");
 	}
 	return true;
 }
