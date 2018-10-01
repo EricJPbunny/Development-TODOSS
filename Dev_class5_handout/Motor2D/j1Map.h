@@ -105,7 +105,10 @@ private:
 public:
 
 	MapData data;
-
+	inline uint Get(int x, int y) const 
+	{
+		return y * (data.width) + x;
+	}
 private:
 
 	pugi::xml_document	map_file;
