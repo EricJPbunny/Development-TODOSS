@@ -4,15 +4,10 @@
 
 int main() 
 {
-	String s1 = "Pedro";
-	String s2 = "Juan";
-	s1 = s2;
-	vec3<float> vector1, vector2{3,2,1};
-
-	vector1 = vector2;
-	vector2.normalize();
-
-	std::cout << s1.text << std::endl;
+	String a("hello");
+	String b("hello2");
+	
+	printf("%s %s", a.GetString(), b.GetString());
 
 	system("pause");
 	return 0;

@@ -1,28 +1,70 @@
 #ifndef STRING
 #define STRING
 
-#include <iostream>
+#include <string.h>
+#include <assert.h>
 
 class String {
-public:
-	char* text;
 
-	String() {
-		text = (char*)"";
+private:
+
+	char* string = nullptr;
+	unsigned int allocated_memory = 0u;
+
+public:
+
+	
+	String() 
+	{
+		string = (char*)"";
+	};
+	
+
+	String(const char* txt)
+	{
+		assert(txt != nullptr);
+		allocated_memory = (strlen(txt)+1);
+		this->string = new char[allocated_memory];
+		
+		strcpy_s(string,allocated_memory,txt);
+
+	}
+	~String() 
+	{
+		delete[] this->string;
+		string = nullptr;
 	};
 
-	String(const char* txt) : text((char*)txt) {};
-
-	String(const String& txt) : text(txt.text) {};
-
-	String operator=(const char* txt) {
-		return text = (char*)txt;
+	char* GetString() 
+	{
+		return this->string;
 	}
 
-	String operator=(const String& txt) {
-		return text = txt.text;
+	String(const String& txt)
+	{
+		assert(txt.string != nullptr);
+		allocated_memory = (strlen(txt.string) + 1);
+		this->string = new char[allocated_memory];
+
+		strcpy_s(string, allocated_memory, txt.string);
 	}
 
+	String operator=(const char* txt) 
+	{
+		return string = (char*)txt;
+	}
+
+	String operator=(const String& txt) 
+	{
+		return string = txt.string;
+	}
+	String operator==(const String& txt)
+	{/*
+		for (int i = 0; i < ; ++i)
+		{
+
+		}*/
+	}
 
 };
 #endif // STRING
