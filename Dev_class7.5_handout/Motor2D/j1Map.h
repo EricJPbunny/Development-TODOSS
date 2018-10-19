@@ -8,6 +8,31 @@
 #include "j1Module.h"
 
 // ----------------------------------------------------
+struct doubleIPoint
+{
+	int x;
+	int y;
+	int xp;
+	int yp;
+	doubleIPoint()
+	{
+	
+	}
+	doubleIPoint(int x,int y, int xp, int yp)
+	{
+		this->x = x;
+		this->y = y;
+		this->xp = xp;
+		this->yp = yp;
+	}
+	doubleIPoint(iPoint child, iPoint parent)
+	{
+		x = child.x;
+		y = child.y;
+		xp = parent.x;
+		yp = parent.y;
+	}
+};
 struct Properties
 {
 	struct Property
@@ -127,6 +152,7 @@ public:
 	void PropagateBFS();
 	void DrawBFS();
 	bool IsWalkable(int x, int y) const;
+	bool FindPath();
 	void ResetBFS();
 
 private:
@@ -150,7 +176,7 @@ private:
 	bool				map_loaded;
 
 	/// BFS
-	p2Queue<iPoint>		frontier;
+	p2Queue<doubleIPoint>		frontier;
 	p2List<iPoint>		visited;
 };
 

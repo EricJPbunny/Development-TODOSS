@@ -31,7 +31,7 @@ void j1Map::ResetBFS()
 {
 	frontier.Clear();
 	visited.clear();
-	frontier.Push(iPoint(19, 4));
+	frontier.Push(doubleIPoint (iPoint(19, 4), iPoint(-1, -1)));
 	visited.add(iPoint(19, 4));
 }
 
@@ -39,30 +39,29 @@ void j1Map::PropagateBFS()
 {
 	// TODO 1: If frontier queue contains elements
 	// pop the last one and calculate its 4 neighbors
-	p2Queue_item<iPoint>* tmp;
+	p2Queue_item<doubleIPoint>* tmp = frontier.start;
 	if (frontier.Count() > 0)
 	{
 
-		tmp = frontier.start;
-		if (visited.find({ tmp->data.x, tmp->data.y + 1 }) == -1)
+		if (visited.find({ tmp->data.x, tmp->data.y + 1 }) == -1 && IsWalkable(tmp->data.x, tmp->data.y))
 		{
 			visited.add({ tmp->data.x, tmp->data.y + 1 });
-			frontier.Push({ tmp->data.x, tmp->data.y + 1 });
+			frontier.Push({ tmp->data.x, tmp->data.y + 1, tmp->data.x,tmp->data.y});
 		}
-		if (visited.find({ tmp->data.x, tmp->data.y - 1 }) == -1)
+		if (visited.find({ tmp->data.x, tmp->data.y - 1 }) == -1 && IsWalkable(tmp->data.x, tmp->data.y))
 		{
 			visited.add({ tmp->data.x , tmp->data.y - 1});
-			frontier.Push({ tmp->data.x , tmp->data.y - 1});
+			frontier.Push({ tmp->data.x , tmp->data.y - 1,tmp->data.x,tmp->data.y});
 		}
-		if (visited.find({ tmp->data.x + 1, tmp->data.y}) == -1)
+		if (visited.find({ tmp->data.x + 1, tmp->data.y}) == -1 && IsWalkable(tmp->data.x, tmp->data.y))
 		{
 			visited.add({ tmp->data.x +1, tmp->data.y});
-			frontier.Push({ tmp->data.x + 1, tmp->data.y});
+			frontier.Push({ tmp->data.x + 1, tmp->data.y,tmp->data.x ,tmp->data.y});
 		}
-		if (visited.find({ tmp->data.x - 1 , tmp->data.y}) == -1)
+		if (visited.find({ tmp->data.x - 1 , tmp->data.y}) == -1 && IsWalkable(tmp->data.x, tmp->data.y))
 		{
 			visited.add({ tmp->data.x - 1 , tmp->data.y});
-			frontier.Push({ tmp->data.x - 1 , tmp->data.y});
+			frontier.Push({ tmp->data.x - 1 , tmp->data.y,tmp->data.x ,tmp->data.y});
 		}
 		frontier.Pop(tmp->data);
 	}
@@ -71,9 +70,18 @@ void j1Map::PropagateBFS()
 
 }
 
+bool j1Map::FindPath()
+{
+	/*doubleIPoint dpoint;
+	p2List_item<doubleIPoint>* item = frontier.start;*/
+	return true;
+
+}
+
 void j1Map::DrawBFS()
 {
 	iPoint point;
+	doubleIPoint dpoint;
 
 	// Draw visited
 	p2List_item<iPoint>* item = visited.start;
@@ -94,11 +102,11 @@ void j1Map::DrawBFS()
 	// Draw frontier
 	for (uint i = 0; i < frontier.Count(); ++i)
 	{
-		point = *(frontier.Peek(i));
+		dpoint = *(frontier.Peek(i));
 		TileSet* tileset = GetTilesetFromTileId(25);
 
 		SDL_Rect r = tileset->GetTileRect(25);
-		iPoint pos = MapToWorld(point.x, point.y);
+		iPoint pos = MapToWorld(dpoint.x, dpoint.y);
 
 		App->render->Blit(tileset->texture, pos.x, pos.y, &r);
 	}
