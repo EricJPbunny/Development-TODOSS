@@ -70,7 +70,9 @@ void j1Map::PropagateDijkstra()
 
 
 
-	/*iPoint curr;
+	iPoint curr;
+	uint new_cost = MovementCost(19,4);
+	
 	if (frontier.Pop(curr))
 	{
 		iPoint neighbors[4];
@@ -81,24 +83,22 @@ void j1Map::PropagateDijkstra()
 
 		for (uint i = 0; i < 4; ++i)
 		{
-			cost_so_far[neighbors[i].x][neighbors[i].y] = MovementCost(neighbors[i].x, neighbors[i].y) + MovementCost(curr.x,curr.y);
-
-			if (  < )
+			LOG("%d", MovementCost(neighbors[i].x, neighbors[i].y));
+			new_cost = cost_so_far[curr.x][curr.y] + MovementCost(neighbors[i].x, neighbors[i].y);
+			if (cost_so_far[neighbors[i].x][neighbors[i].y] == 0 || new_cost < cost_so_far[neighbors[i].x][neighbors[i].y])
 			{
-				if (visited.find(neighbors[i]) == -1)
-				{
-					frontier.Push(neighbors[i], cost_so_far[neighbors[i].x][neighbors[i].y]);
-					visited.add(neighbors[i]);
-					breadcrumbs.add(curr);
-				}
+				cost_so_far[neighbors[i].x][neighbors[i].y] = new_cost;
+				frontier.Push(neighbors[i], cost_so_far[neighbors[i].x][neighbors[i].y]);
+				visited.add( neighbors[i]);
+				breadcrumbs.add(curr);
 			}
 		}
-	}*/
+	}
 }
 
 int j1Map::MovementCost(int x, int y) const
 {
-	int ret = -1;
+	int ret = 900000;
 
 	if (x >= 0 && x < data.width && y >= 0 && y < data.height)
 	{
@@ -106,7 +106,7 @@ int j1Map::MovementCost(int x, int y) const
 
 		if (id == 0)
 			ret = 3;
-		else
+		else 
 			ret = 0;
 	}
 
